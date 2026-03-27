@@ -23,7 +23,7 @@ def is_authorized(update: Update) -> bool:
 
 
 def get_bilder() -> list[Path]:
-    return sorted(
+    return sorted(reverse=True,
         [p for p in BILDER_DIR.glob("*") if p.is_file() and p.suffix.lower() in ALLOWED_EXTS]
     )
 
