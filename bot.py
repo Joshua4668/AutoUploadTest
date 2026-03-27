@@ -27,7 +27,7 @@ def get_bilder() -> list[Path]:
     bilder = [p for p in BILDER_DIR.glob("*") if p.is_file() and p.suffix.lower() in ALLOWED_EXTS]
 
     def sort_key(p: Path):
-        match = re.search(r"-(\d+)$", p.stem)  # Zahl am Ende des Dateinamens suchen
+        match = re.search(r"-(\d{1,3})$", p.stem)  # Nur 1-3 stellige Zahlen (nicht Jahreszahlen)
         if match:
             return (0, -int(match.group(1)))    # Mit Nummer: absteigende Reihenfolge
         else:
