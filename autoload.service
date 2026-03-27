@@ -1,0 +1,15 @@
+[Unit]
+Description=AutoLoadMonatagsFotos Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=junghans
+WorkingDirectory=/home/junghans/services/mein-skript
+ExecStart=/home/junghans/services/mein-skript/venv/bin/python main.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
