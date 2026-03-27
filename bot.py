@@ -1,6 +1,7 @@
 import logging
 import subprocess
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 from telegram import Update
@@ -47,7 +48,7 @@ async def cmd_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⏳ Starte Download aus Gmail...")
 
     result = subprocess.run(
-        ["python3", "AutoDownloadEKHA.py"],
+        [sys.executable, "AutoDownloadEKHA.py"],
         capture_output=True, text=True, timeout=120, cwd=WORK_DIR
     )
 
@@ -122,7 +123,7 @@ async def cmd_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     env["UPLOAD_ORDER"] = reihenfolge
 
     result = subprocess.run(
-        ["python3", "AutoUpload.py"],
+        [sys.executable, "AutoUpload.py"],
         capture_output=True, text=True, timeout=300,
         cwd=WORK_DIR, env=env
     )
