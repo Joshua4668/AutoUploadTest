@@ -1,4 +1,5 @@
 import logging
+import re
 import subprocess
 import os
 import sys
@@ -23,10 +24,16 @@ def is_authorized(update: Update) -> bool:
 
 
 def get_bilder() -> list[Path]:
-            return sorted(
-        [p for p in BILDER_DIR.glob("*") if p.is_file() and p.suffix.lower() in ALLOWED_EXTS]
-                        reverse=True
-    )
+    bilder = [p for p in BILDER_DIR.glob("*") if p.is_file() and p.suffix.lower() in ALLOWED_EXTS]
+
+    def sort_key(p: Path):
+        match = re.search(r"-(\d+)$", p.stem)  # Zahl am Ende des Dateinamens suchen
+        if match:
+            return (0, -int(match.group(1)))    # Mit Nummer: absteigende Reihenfolge
+        else:
+            return (1, 0)                        # Nur Datum: immer ans Ende
+
+    return sorted(bilder, key=sort_key)
 
 
 def format_bilderliste(bilder: list[Path]) -> str:
